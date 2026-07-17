@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: videobot-admin-and-bot
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: OWNER_ID
+        sync: false
+      - key: ADMIN_PANEL_PASSWORD
+        sync: false
+      - key: ADMIN_PANEL_SECRET
+        sync: false
+    healthCheckPath: /admin/login

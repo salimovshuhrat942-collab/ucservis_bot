@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Features{% endblock %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-6">Feature Manager</h1>
+<div class="grid grid-cols-3 gap-4">
+  {% for feature, enabled in features.items() %}
+  <div class="card p-4 flex items-center justify-between">
+    <span class="mono text-sm">{{ feature }}</span>
+    <form method="post" action="/admin/features/{{ feature }}/toggle">
+      <input type="hidden" name="enabled" value="{{ 'false' if enabled else 'true' }}">
+      <button class="btn {{ 'btn-amber' if enabled else 'btn-ghost' }} text-xs px-3 py-1.5">
+        {{ 'ENABLED' if enabled else 'DISABLED' }}
+      </button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in · Control Room</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body{ background:#0c0e12; color:#e7e9ec; font-family:'Inter',sans-serif; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  .card{ background:#14171d; border:1px solid #262b34; }
+  input{ background:#1b1f27; border:1px solid #262b34; color:#e7e9ec; }
+  input:focus{ outline:none; border-color:#f5a623; }
+  .btn{ background:#f5a623; color:#1a1200; }
+  .btn:hover{ filter:brightness(1.08); }
+  .sprocket{ background-image: radial-gradient(circle, #262b34 2px, transparent 2.5px); background-size: 100% 22px; }
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-sm">
+    <div class="flex items-center justify-center gap-2 mb-6">
+      <div class="sprocket h-8 w-2"></div>
+      <div class="mono text-lg font-semibold tracking-wide">VIDEO BOT · CONTROL ROOM</div>
+    </div>
+    <form method="post" action="/admin/login" class="card rounded-xl p-7 space-y-4">
+      {% if error %}
+      <div class="text-sm text-red-400 bg-red-950/40 border border-red-900 rounded-lg px-3 py-2">{{ error }}</div>
+      {% endif %}
+      <div>
+        <label class="text-xs text-[#8a93a3] mono">USERNAME</label>
+        <input name="username" value="owner" class="w-full rounded-lg px-3 py-2 mt-1" required>
+      </div>
+      <div>
+        <label class="text-xs text-[#8a93a3] mono">PASSWORD</label>
+        <input name="password" type="password" class="w-full rounded-lg px-3 py-2 mt-1" required>
+      </div>
+      <button type="submit" class="btn w-full rounded-lg py-2.5 font-semibold text-sm mt-2">Enter control room</button>
+    </form>
+    <p class="text-center text-[11px] text-[#8a93a3] mt-4 mono">default user: owner · password from .env ADMIN_PANEL_PASSWORD</p>
+  </div>
+</body>
+</html>

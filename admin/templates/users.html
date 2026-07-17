@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-xl font-semibold">Users</h1>
+  <form method="get" class="flex gap-2">
+    <input name="q" value="{{ q }}" placeholder="Search by ID or username" class="rounded-lg px-3 py-2 text-sm w-72">
+    <button class="btn btn-amber">Search</button>
+  </form>
+</div>
+
+<div class="card overflow-hidden">
+<table>
+  <thead><tr>
+    <th>ID</th><th>Username</th><th>Lang</th><th>Registered</th>
+    <th>Conversions</th><th>Referrals</th><th>Premium</th><th>Status</th><th></th>
+  </tr></thead>
+  <tbody>
+  {% for u in users %}
+    <tr>
+      <td class="mono">{{ u.id }}</td>
+      <td>{{ '@' + u.username if u.username else '—' }}</td>
+      <td class="mono">{{ u.language }}</td>
+      <td class="mono text-[var(--muted)]">{{ u.registered_at.strftime('%Y-%m-%d') }}</td>
+      <td class="mono">{{ u.conversions_count }}</td>
+      <td class="mono">{{ u.referral_count }}</td>
+      <td>{% if u.is_premium %}<span class="text-[var(--teal)]">💎 Yes</span>{% else %}<span class="text-[var(--muted)]">No</span>{% endif %}</td>
+      <td>{% if u.is_banned %}<span class="text-[var(--red)]">Banned</span>{% else %}<span class="text-green-400">Active</span>{% endif %}</td>
+      <td class="whitespace-nowrap">
+        <div class="flex gap-1.5">
+          {% if u.is_banned %}
+          <form method="post" action="/admin/users/{{ u.id }}/unban"><button class="btn btn-ghost text-xs px-2 py-1">Unban</button></form>
+          {% else %}
+          <form method="post" action="/admin/users/{{ u.id }}/ban"><button class="btn btn-ghost text-xs px-2 py-1">Ban</button></form>
+          {% endif %}
+          {% if u.is_premium %}
+          <form method="post" action="/admin/users/{{ u.id }}/premium_off"><button class="btn btn-ghost text-xs px-2 py-1">Premium off</button></form>
+          {% else %}
+          <form method="post" action="/admin/users/{{ u.id }}/premium_on"><button class="btn btn-ghost text-xs px-2 py-1">Premium on</button></form>
+          {% endif %}
+          <form method="post" action="/admin/users/{{ u.id }}/delete" onsubmit="return confirm('Delete this user permanently?')">
+            <button class="btn btn-danger text-xs px-2 py-1">Delete</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="9" class="text-center text-[var(--muted)] py-8">No users found</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

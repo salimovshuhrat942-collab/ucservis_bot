@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-8">
+  <div>
+    <h1 class="text-xl font-semibold">Dashboard</h1>
+    <p class="text-sm text-[var(--muted)] mono">live system readout</p>
+  </div>
+  <div class="flex items-center gap-2 text-xs mono text-[var(--muted)]"><span class="rec-dot"></span> LIVE</div>
+</div>
+
+<div class="grid grid-cols-4 gap-4 mb-6">
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Total Users</div>
+    <div class="mono text-3xl font-semibold">{{ total }}</div>
+  </div>
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Today's Joins</div>
+    <div class="mono text-3xl font-semibold text-[var(--amber)]">{{ today }}</div>
+  </div>
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Premium Users</div>
+    <div class="mono text-3xl font-semibold text-[var(--teal)]">{{ premium }}</div>
+  </div>
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Conversions Today</div>
+    <div class="mono text-3xl font-semibold">{{ conversions_today }}</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Weekly Users</div>
+    <div class="mono text-2xl font-semibold">{{ week }}</div>
+  </div>
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Monthly Users</div>
+    <div class="mono text-2xl font-semibold">{{ month }}</div>
+  </div>
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Most Used Feature</div>
+    <div class="mono text-2xl font-semibold text-[var(--amber)]">{{ top_feature }}</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-4 gap-4">
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Queue Size</div>
+    <div class="mono text-2xl font-semibold">{{ queue_size }}</div>
+  </div>
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">CPU</div>
+    <div class="mono text-2xl font-semibold">{{ cpu }}%</div>
+    <div class="h-1.5 bg-[var(--surface2)] rounded-full mt-2 overflow-hidden"><div class="h-full bg-[var(--amber)]" style="width:{{ cpu }}%"></div></div>
+  </div>
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">RAM</div>
+    <div class="mono text-2xl font-semibold">{{ ram_percent }}%</div>
+    <div class="text-[11px] text-[var(--muted)] mono mt-1">{{ ram_used }} / {{ ram_total }}</div>
+    <div class="h-1.5 bg-[var(--surface2)] rounded-full mt-2 overflow-hidden"><div class="h-full bg-[var(--teal)]" style="width:{{ ram_percent }}%"></div></div>
+  </div>
+  <div class="card p-5">
+    <div class="text-[var(--muted)] text-xs mono uppercase mb-2">Disk</div>
+    <div class="mono text-2xl font-semibold">{{ disk_percent }}%</div>
+    <div class="text-[11px] text-[var(--muted)] mono mt-1">{{ disk_used }} / {{ disk_total }}</div>
+    <div class="h-1.5 bg-[var(--surface2)] rounded-full mt-2 overflow-hidden"><div class="h-full" style="width:{{ disk_percent }}%; background:var(--red)"></div></div>
+  </div>
+</div>
+{% endblock %}

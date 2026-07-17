@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Video Bot{% endblock %} · Control Room</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0e12; --surface:#14171d; --surface2:#1b1f27; --border:#262b34;
+    --text:#e7e9ec; --muted:#8a93a3; --amber:#f5a623; --red:#ff4d4d; --teal:#2dd4bf;
+  }
+  body{ background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; }
+  .sprocket{
+    background-image: radial-gradient(circle, var(--border) 2px, transparent 2.5px);
+    background-size: 100% 22px;
+    width:10px;
+  }
+  .nav-link{ color:var(--muted); transition:.15s; border-left:2px solid transparent; }
+  .nav-link:hover, .nav-link.active{ color:var(--text); background:var(--surface2); border-left-color:var(--amber); }
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background:var(--border); border-radius:4px; }
+  .rec-dot{ width:8px;height:8px;border-radius:50%; background:var(--red); box-shadow:0 0 8px var(--red); animation:pulse 1.6s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.35} }
+  input, select, textarea { background:var(--surface2); border:1px solid var(--border); color:var(--text); }
+  input:focus, select:focus, textarea:focus{ outline:none; border-color:var(--amber); }
+  .btn{ border-radius:8px; padding:.5rem 1rem; font-weight:600; font-size:.875rem; transition:.15s; }
+  .btn-amber{ background:var(--amber); color:#1a1200; }
+  .btn-amber:hover{ filter:brightness(1.1); }
+  .btn-ghost{ background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+  .btn-ghost:hover{ border-color:var(--amber); }
+  .btn-danger{ background:transparent; color:var(--red); border:1px solid #4a2020; }
+  .btn-danger:hover{ background:#2a1414; }
+  table{ border-collapse:collapse; width:100%; }
+  th{ text-align:left; color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; padding:.6rem .75rem; border-bottom:1px solid var(--border); }
+  td{ padding:.6rem .75rem; border-bottom:1px solid var(--border); font-size:.875rem; }
+  tr:hover td{ background:var(--surface2); }
+</style>
+</head>
+<body class="min-h-screen flex">
+
+<aside class="w-60 shrink-0 border-r border-[var(--border)] flex flex-col" style="background:var(--surface)">
+  <div class="flex items-center gap-2 px-5 py-5 border-b border-[var(--border)]">
+    <div class="sprocket h-8"></div>
+    <div>
+      <div class="mono text-sm font-semibold tracking-wide">VIDEO&nbsp;BOT</div>
+      <div class="text-[11px] text-[var(--muted)] flex items-center gap-1"><span class="rec-dot"></span> control room</div>
+    </div>
+  </div>
+  <nav class="flex-1 py-3">
+    <a href="/admin" class="nav-link {% if request.url.path=='/admin' %}active{% endif %} flex items-center gap-3 px-5 py-2.5 text-sm">📊 Dashboard</a>
+    <a href="/admin/users" class="nav-link {% if '/admin/users' in request.url.path %}active{% endif %} flex items-center gap-3 px-5 py-2.5 text-sm">👥 Users</a>
+    <a href="/admin/channels" class="nav-link {% if '/admin/channels' in request.url.path %}active{% endif %} flex items-center gap-3 px-5 py-2.5 text-sm">📢 Required Channels</a>
+    <a href="/admin/features" class="nav-link {% if '/admin/features' in request.url.path %}active{% endif %} flex items-center gap-3 px-5 py-2.5 text-sm">🧩 Features</a>
+    <a href="/admin/broadcast" class="nav-link {% if '/admin/broadcast' in request.url.path %}active{% endif %} flex items-center gap-3 px-5 py-2.5 text-sm">📣 Broadcast</a>
+    <a href="/admin/logs" class="nav-link {% if '/admin/logs' in request.url.path %}active{% endif %} flex items-center gap-3 px-5 py-2.5 text-sm">🧾 Logs</a>
+    <a href="/admin/settings" class="nav-link {% if '/admin/settings' in request.url.path %}active{% endif %} flex items-center gap-3 px-5 py-2.5 text-sm">⚙️ Settings</a>
+  </nav>
+  <div class="px-5 py-4 border-t border-[var(--border)]">
+    <a href="/admin/logout" class="text-xs text-[var(--muted)] hover:text-[var(--red)]">↪ Sign out</a>
+  </div>
+</aside>
+
+<main class="flex-1 p-8 overflow-x-hidden">
+  {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

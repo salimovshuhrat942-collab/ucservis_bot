@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Required Channels{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-xl font-semibold">Required Channels</h1>
+  <form method="post" action="/admin/channels/forced_join_toggle" class="flex items-center gap-2 text-sm">
+    <span class="text-[var(--muted)]">Forced join</span>
+    <input type="hidden" name="enabled" value="{{ 'false' if forced_join_enabled else 'true' }}">
+    <button class="btn {{ 'btn-amber' if forced_join_enabled else 'btn-ghost' }} text-xs px-3 py-1.5">
+      {{ 'ON' if forced_join_enabled else 'OFF' }}
+    </button>
+  </form>
+</div>
+
+<div class="card p-5 mb-6">
+  <div class="text-sm text-[var(--muted)] mb-3 mono">ADD CHANNEL</div>
+  <form method="post" action="/admin/channels/add" class="flex gap-3 flex-wrap">
+    <input name="chat_id" placeholder="@channel_username or -100123456789" class="rounded-lg px-3 py-2 text-sm flex-1 min-w-[220px]" required>
+    <input name="title" placeholder="Display title" class="rounded-lg px-3 py-2 text-sm w-52">
+    <input name="invite_link" placeholder="Invite link (optional)" class="rounded-lg px-3 py-2 text-sm w-64">
+    <button class="btn btn-amber">Add channel</button>
+  </form>
+</div>
+
+<div class="card overflow-hidden">
+<table>
+  <thead><tr><th>#</th><th>Chat ID</th><th>Title</th><th>Status</th><th></th></tr></thead>
+  <tbody>
+  {% for ch in channels %}
+    <tr>
+      <td class="mono">{{ ch.order_index }}</td>
+      <td class="mono">{{ ch.chat_id }}</td>
+      <td>{{ ch.title or '—' }}</td>
+      <td>{% if ch.is_active %}<span class="text-green-400">Active</span>{% else %}<span class="text-[var(--muted)]">Inactive</span>{% endif %}</td>
+      <td class="whitespace-nowrap">
+        <div class="flex gap-1.5">
+          <form method="post" action="/admin/channels/{{ ch.id }}/toggle">
+            <input type="hidden" name="active" value="{{ 'false' if ch.is_active else 'true' }}">
+            <button class="btn btn-ghost text-xs px-2 py-1">{{ 'Deactivate' if ch.is_active else 'Activate' }}</button>
+          </form>
+          <form method="post" action="/admin/channels/{{ ch.id }}/remove" onsubmit="return confirm('Remove channel?')">
+            <button class="btn btn-danger text-xs px-2 py-1">Remove</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5" class="text-center text-[var(--muted)] py-8">No required channels yet</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

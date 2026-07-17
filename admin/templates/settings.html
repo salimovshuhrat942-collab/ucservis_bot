@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-6">Settings</h1>
+<form method="post" action="/admin/settings" class="card p-6 grid grid-cols-2 gap-5">
+  {% for key, value in settings.items() %}
+  <div>
+    <label class="text-xs text-[var(--muted)] mono uppercase">{{ key }}</label>
+    {% if key == 'maintenance_mode' or key == 'forced_join_enabled' %}
+    <select name="{{ key }}" class="w-full rounded-lg px-3 py-2 mt-1 text-sm">
+      <option value="1" {% if value=='1' %}selected{% endif %}>ON</option>
+      <option value="0" {% if value=='0' %}selected{% endif %}>OFF</option>
+    </select>
+    {% elif key.startswith('welcome_message') %}
+    <textarea name="{{ key }}" rows="2" class="w-full rounded-lg px-3 py-2 mt-1 text-sm">{{ value }}</textarea>
+    {% else %}
+    <input name="{{ key }}" value="{{ value }}" class="w-full rounded-lg px-3 py-2 mt-1 text-sm mono">
+    {% endif %}
+  </div>
+  {% endfor %}
+  <div class="col-span-2 pt-2">
+    <button class="btn btn-amber">Save settings</button>
+  </div>
+</form>
+{% endblock %}

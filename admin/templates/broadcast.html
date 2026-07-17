@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Broadcast{% endblock %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-6">Broadcast</h1>
+
+<div class="card p-6 mb-8">
+  <div class="text-sm text-[var(--muted)] mb-3 mono">SEND TEXT MESSAGE TO ALL USERS</div>
+  <form method="post" action="/admin/broadcast/send" class="space-y-4">
+    <textarea name="message" rows="5" placeholder="Message text..." class="w-full rounded-lg px-3 py-2 text-sm" required></textarea>
+    <button class="btn btn-amber" onclick="return confirm('Send to all users now?')">🚀 Send broadcast</button>
+  </form>
+  <p class="text-xs text-[var(--muted)] mt-3">Photo / video / animation / document broadcasts: pass a Telegram file_id via the API endpoint <span class="mono">/admin/broadcast/send</span> (extend the form as needed — the worker in <span class="mono">admin/broadcast_worker.py</span> already supports all types).</p>
+</div>
+
+<div class="card overflow-hidden">
+<table>
+  <thead><tr><th>Time</th><th>Type</th><th>Sent</th><th>Failed</th><th>Blocked</th></tr></thead>
+  <tbody>
+  {% for h in history %}
+    <tr>
+      <td class="mono text-[var(--muted)]">{{ h.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+      <td class="mono">{{ h.content_type }}</td>
+      <td class="mono text-green-400">{{ h.sent }}</td>
+      <td class="mono text-[var(--red)]">{{ h.failed }}</td>
+      <td class="mono text-[var(--amber)]">{{ h.blocked }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5" class="text-center text-[var(--muted)] py-8">No broadcasts sent yet</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Logs{% endblock %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-6">Action Logs</h1>
+<div class="card overflow-hidden">
+<table>
+  <thead><tr><th>Time</th><th>User</th><th>Action</th><th>File size</th><th>Result</th><th>Error</th></tr></thead>
+  <tbody>
+  {% for log in logs %}
+    <tr>
+      <td class="mono text-[var(--muted)]">{{ log.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+      <td class="mono">{{ log.username and ('@' + log.username) or log.user_id }}</td>
+      <td class="mono text-[var(--amber)]">{{ log.action }}</td>
+      <td class="mono">{{ '%.1f'|format((log.file_size or 0)/1048576) }} MB</td>
+      <td>{% if log.result == 'ok' %}<span class="text-green-400">ok</span>{% else %}<span class="text-[var(--red)]">error</span>{% endif %}</td>
+      <td class="text-[var(--muted)] text-xs">{{ log.error or '—' }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="6" class="text-center text-[var(--muted)] py-8">No logs yet</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
